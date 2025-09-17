@@ -187,21 +187,32 @@ class QuantagVM(BackendV2):
     def _default_options(cls):
         return {}
 
-    def _post_sync(self, qasm_b64: str, shots: int) -> dict:
-        endpoint = f"{self.server_url}/qvm/run"
-        payload = {
-            "apikey": self.api_key,
-            "backend": self.backend_type,
-            "qasm": qasm_b64,
-            "shots": shots,
-        }
-        resp = requests.post(endpoint, json=payload, timeout=self.request_timeout)
-        resp.raise_for_status()
-        data = resp.json()
-        # If server returns an error blob instead of raising
-        if isinstance(data, dict) and data.get("error"):
-            raise RuntimeError(f"Quantag sync error: {data['error']}")
+    def _post_sync(self, qasm_b64: str, shots: int):
+        url = f"{self.server_url}/qvm/run"
+        payload = {"apikey": self.api_key, "qasm": qasm_b64, "shots": shots}
+
+        resp = requests.post(url, json=payload, timeout=60)
+
+    # Try to parse JSON even if status != 200
+        try:
+           data = resp.json()
+        except Exception:
+            data = {"error": resp.text.strip()}
+
+        if resp.status_code != 200:
+           # Look deeper into the response for details
+            err_msg = None
+            if isinstance(data, dict):
+                if "details" in data and isinstance(data["details"], dict):
+                    err_msg = data["details"].get("error")
+                if not err_msg:
+                    err_msg = data.get("error")
+            if not err_msg:
+                err_msg = f"HTTP {resp.status_code}"
+            raise RuntimeError(f"QuantagVM error: {err_msg}")
+
         return data
+
 
     def _submit_async(self, qasm_b64: str, shots: int) -> str:
         endpoint = f"{self.server_url}/qvm/submit"
