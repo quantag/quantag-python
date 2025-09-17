@@ -17,22 +17,21 @@ Installation
 
 ------------------------------------------------------------
 
+Register at https://cloud.quantag-it.com/ and generate your API key at https://cloud.quantag-it.com/profile
+
 Usage
 -----
 
-    from qiskit import QuantumCircuit, execute
     from quantag.vm import QuantagVM
+    from qiskit import QuantumCircuit
 
-    # Create a simple circuit
+    backend = QuantagVM(api_key="<your API key>")
     qc = QuantumCircuit(2)
     qc.h(0)
     qc.cx(0, 1)
     qc.measure_all()
-
-    # Run it on QuantagVM
-    backend = QuantagVM()
-    result = execute(qc, backend, shots=100).result()
-
+    job = backend.run(qc, shots=1000)
+    result = job.result()
     print(result.get_counts())
 
 ------------------------------------------------------------
