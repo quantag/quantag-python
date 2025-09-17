@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# Package name on PyPI
+name = "quantag-vm"
+version = "0.1.0"
+description = "Quantag Quantum Virtual Machine (QVM) backend for Qiskit"
+authors = [
+    {name="Your Name", email="your@email.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+dependencies = ["qiskit>=1.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/quantag/quantag-vm"
+Repository = "https://github.com/quantag/quantag-vm"
+
