@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantag"
-version = "0.3.0"
+version = "0.4.0"
 description = "Quantag Quantum Virtual Machine backend for Qiskit"
 readme = "README.md"
 authors = [
@@ -14,7 +14,9 @@ license = { file = "LICENSE" }
 keywords = ["quantum", "qiskit", "simulator", "cudaq"]
 requires-python = ">=3.8"
 dependencies = [
-  "qiskit>=1.0.0",
+  "qiskit>=1.0.0,<2.0.0",
+  "qiskit-optimization>=0.6.0",
+  "pandas>=2.0.0",
   "requests>=2.0.0"
 ]
 classifiers = [
@@ -22,6 +24,11 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Topic :: Scientific/Engineering :: Physics"
+]
+
+[project.optional-dependencies]
+dwave = [
+  "dwave-ocean-sdk>=6.5.0"
 ]
 
 [project.urls]
