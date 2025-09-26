@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantag"
-version = "0.4.0"
+version = "0.5.0"
 description = "Quantag Quantum Virtual Machine backend for Qiskit"
 readme = "README.md"
 authors = [
@@ -17,7 +17,9 @@ dependencies = [
   "qiskit>=1.0.0,<2.0.0",
   "qiskit-optimization>=0.6.0",
   "pandas>=2.0.0",
-  "requests>=2.0.0"
+  "requests>=2.0.0",
+  "numpy>=1.20",
+  "Pillow>=9.0"
 ]
 classifiers = [
   "Programming Language :: Python :: 3",
